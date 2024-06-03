@@ -5,7 +5,7 @@ export class UserController{
     
     @Get()
     find(): string []{
-        return ['user1','user2','user3'];
+        return ['user1','user2','user3','user4'];
     }
  
     @Get()
