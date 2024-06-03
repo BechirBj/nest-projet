@@ -10,7 +10,7 @@ export class UserController{
  
     @Get()
     findOne(): string {
-        return 'find one user';
+        return 'find 1 user';
     }
 
     @Post()
