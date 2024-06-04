@@ -1,5 +1,6 @@
 import { Controller,Delete,Get,Patch,Post, Req ,Param, Body, HttpCode} from "@nestjs/common";
 import { Request } from "express";
+import { CreateUser } from "./dtos/CreateUser.tdo";
 
 @Controller("users")
 export class UsersController{
@@ -15,9 +16,7 @@ export class UsersController{
     }
 
     @Post() // returs the data that was passed in the GET request (localhost:3000/users)
-    create(@Body() userData : any ): string {
-        // some logic 
-        // DTO Data transfer object  in an object that defines how the data will be sent over the network
+    create(@Body() userData : CreateUser ) {
         return userData;
     }
 
