@@ -1,7 +1,7 @@
 import { Controller,Delete,Get,Patch,Post } from "@nestjs/common";
 
 @Controller("users")
-export class UserController{
+export class UsersController{
     
     @Get()
     find(): string []{
