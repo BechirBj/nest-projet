@@ -15,7 +15,7 @@ export class UsersController{
         return username;
     }
 
-    @Post() // returs the data that was passed in the GET request (localhost:3000/users)
+    @Post() // returs the data that was passed in the GET request (localhost:3000/users               )
     create(@Body() createUserDto : CreateUserDto ) {
         return createUserDto;
     }
