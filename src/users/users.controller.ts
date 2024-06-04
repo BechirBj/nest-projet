@@ -1,4 +1,4 @@
-import { Controller,Delete,Get,Patch,Post, Req ,Param, Body} from "@nestjs/common";
+import { Controller,Delete,Get,Patch,Post, Req ,Param, Body, HttpCode} from "@nestjs/common";
 import { Request } from "express";
 
 @Controller("users")
@@ -16,20 +16,20 @@ export class UsersController{
 
     @Post() // returs the data that was passed in the GET request (localhost:3000/users)
     create(@Body() userData : any ): string {
-
+        // some logic 
+        // DTO Data transfer object  in an object that defines how the data will be sent over the network
         return userData;
     }
 
     @Patch(":username")       
-    update(@Param("username") username: string): string {
-        return username +"removed successfully";
+    update(@Param("username") username: string, @Body() input ){
+        return input ;
 
     }
 
-    @Delete(":username")       
-    remove(@Param("username") username: string): string {
-
-        return username +" removed successfully";
+    @Delete(":username")   
+    @HttpCode(204)  // You can change the status code here  to indicate the result of a request
+    remove(@Param("username", ) username: string) {
     }
     
     
