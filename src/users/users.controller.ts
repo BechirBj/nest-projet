@@ -1,6 +1,6 @@
 import { Controller,Delete,Get,Patch,Post, Req ,Param, Body, HttpCode} from "@nestjs/common";
-import { Request } from "express";
-import { CreateUser } from "./dtos/CreateUser.tdo";
+import { CreateUserDto } from "./dtos/CreateUser.tdo";
+import { UpdateUserDto } from "./dtos/UpdateUser.tdo";
 
 @Controller("users")
 export class UsersController{
@@ -16,13 +16,16 @@ export class UsersController{
     }
 
     @Post() // returs the data that was passed in the GET request (localhost:3000/users)
-    create(@Body() userData : CreateUser ) {
-        return userData;
+    create(@Body() createUserDto : CreateUserDto ) {
+        return createUserDto;
     }
 
+
+
     @Patch(":username")       
-    update(@Param("username") username: string, @Body() input ){
-        return input ;
+    update(@Param("username") username: string, @Body() updateUserDto : UpdateUserDto ){
+        
+        return updateUserDto ;
 
     }
 
