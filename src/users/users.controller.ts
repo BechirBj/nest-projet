@@ -1,23 +1,41 @@
 import { Controller,Delete,Get,Patch,Post, Req ,Param, Body, HttpCode} from "@nestjs/common";
 import { CreateUserDto } from "./dtos/CreateUser.tdo";
 import { UpdateUserDto } from "./dtos/UpdateUser.tdo";
+import { UserEntity } from "./User.entity";
+import {v4 as uuid} from "uuid"
 
 @Controller("users")
 export class UsersController{
-    
+
+
+    private readonly users: UserEntity[] = [];
+
+
+
     @Get()
-    find(): string []{
-        return ['user1','user2','user3','user4'];
+    find(): UserEntity[] {
+        return this.users;
     }
  
-    @Get(":username") // returs the username that was passed in the GET request (localhost:3000/users/username)
-    findOne(@Param("username") username: string): string {
-        return username;
+    @Get(":id") // returs the user that was passed in the GET request (localhost:3000/users/id)
+    findOne(@Param("id") id: string): UserEntity {
+        // Mapping 3al users 7ata len yal9a l id == user.id
+        return  this.users.find((user) => user.id == id);
     }
 
-    @Post() // returs the data that was passed in the GET request (localhost:3000/users               )
+
+
+
+
+    @Post() 
     create(@Body() createUserDto : CreateUserDto ) {
-        return createUserDto;
+        const newUser : UserEntity  = {
+            ...createUserDto,
+            id: uuid(),
+         }
+        this.users.push(newUser);
+
+        return newUser;
     }
 
 
