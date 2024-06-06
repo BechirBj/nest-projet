@@ -1,4 +1,4 @@
-import { Controller,Delete,Get,Patch,Post ,Param, Body, HttpCode, HttpStatus,  ParseUUIDPipe} from "@nestjs/common";
+import { Controller,Delete,Get,Patch,Post ,Param, Body, HttpCode, HttpStatus,  ParseUUIDPipe, ValidationPipe} from "@nestjs/common";
 import { CreateUserDto } from "./dtos/CreateUser.tdo";
 import { UpdateUserDto } from "./dtos/UpdateUser.tdo";
 import { UserEntity } from "./User.entity";
@@ -11,7 +11,7 @@ export class UsersController{
     private  users: UserEntity[] = [];
 
 
-
+ 
     @Get()
     find(): UserEntity[] {
         return this.users;
@@ -30,9 +30,7 @@ export class UsersController{
     }
 
 
-
-
-
+    //ValidationPipe forces Nest to check the validity of the parameters based on the main class
     @Post() 
     create(@Body() createUserDto : CreateUserDto ) {
         const newUser : UserEntity  = {
@@ -47,7 +45,10 @@ export class UsersController{
 
 
     @Patch(":id")       
-    update(@Param("id",ParseUUIDPipe) id: string, @Body() updateUserDto : UpdateUserDto ){
+    update(
+    @Param("id",ParseUUIDPipe) id: string,
+    @Body() updateUserDto : UpdateUserDto 
+    ){
         // 1) find the user that has the passed id 
         const index = this.users.findIndex((user : UserEntity) => user.id === id); 
         // 2) update the user
