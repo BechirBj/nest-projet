@@ -5,12 +5,14 @@ import { CreateUserDto } from "./dtos/CreateUser.tdo";
 import {v4 as uuid} from "uuid"
 
 @Injectable()
-export class SerViceUser{
+export class ServiceUser{
+    
+
     private  users: UserEntity[] = [];
+
+
     findUsers(): UserEntity[] {
-
         return this.users;
-
     }
 
     findById(id: string): UserEntity{
@@ -24,9 +26,7 @@ export class SerViceUser{
             id: uuid(),
          }
         this.users.push(newUser);
-
         return newUser;
-
     }
 
     UpdateUser(id: string, updateUserDto:UpdateUserDto): UserEntity{
@@ -48,9 +48,4 @@ export class SerViceUser{
         this.users = this.users.filter((user : UserEntity) => user.id != id  );
         // 2) remove the user
     }
-
-
-
-
-      
 }
