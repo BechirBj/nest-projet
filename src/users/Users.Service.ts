@@ -6,7 +6,6 @@ import {v4 as uuid} from "uuid"
 
 @Injectable()
 export class ServiceUser{
-    
 
     private  users: UserEntity[] = [];
 
@@ -16,10 +15,23 @@ export class ServiceUser{
     }
 
     findById(id: string): UserEntity{
+
         // Mapping 3al users 7ata len yal9a l id == user.id
         return  this.users.find((user) => user.id === id);
     }
 
+     /* 
+    @Post()
+    // @Req() decorator  allows you to access all aspects of the incoming request.
+    create( /* @Req() req:Request ): string {
+        /* 
+        console.log(req.body);  refers to the body of the HTTP request, which typically contains data sent by the client
+        
+
+        return "User created successfully";
+    } */ 
+
+        
     CreateUser(createUserDto:CreateUserDto ): UserEntity {
         const newUser : UserEntity  = {
             ...createUserDto,
