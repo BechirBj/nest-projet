@@ -23,8 +23,6 @@ export class UsersController{
  
     findOne(@Param("id",new ParseUUIDPipe({ errorHttpStatusCode: HttpStatus.FORBIDDEN })) 
     id: string): UserEntity {
-    console.log(typeof id);
-        
         // Mapping 3al users 7ata len yal9a l id == user.id
         return  this.users.find((user) => user.id === id);
     }
