@@ -3,6 +3,7 @@ import { ServiceUser } from "./users/users.Service";
 import { UsersController } from "./users/users.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "./users/User.entity";
+import { UsersModule } from "./users/users.module";
 
 
 @Module({ 
@@ -10,17 +11,14 @@ import { UserEntity } from "./users/User.entity";
         TypeOrmModule.forRoot({
           type: 'postgres',
           host: 'localhost',
-          port: 3306,
-          username: 'root',
-          password: 'root',
-          database: 'test',
+          port: 5432,
+          username: 'postgres',
+          password: 'admin',
+          database: 'nestt',
           entities: [UserEntity],
           synchronize: true,
-        }),
+        }),UsersModule
       ],
-    controllers: [UsersController],
-    providers: [ServiceUser], 
-  
 })
 export class AppModule{
 

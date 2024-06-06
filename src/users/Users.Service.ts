@@ -3,11 +3,19 @@ import { UserEntity } from "./User.entity";
 import { UpdateUserDto } from "./dtos/UpdateUser.tdo";
 import { CreateUserDto } from "./dtos/CreateUser.tdo";
 import {v4 as uuid} from "uuid"
+import { InjectRepository } from "@nestjs/typeorm";
+import { Repository } from "typeorm";
 
 @Injectable()
 export class ServiceUser{
 
     private  users: UserEntity[] = [];
+    constructor(
+        @InjectRepository(UserEntity)
+        private userRepository: Repository<UserEntity>
+    ){
+
+    }
 
 
     findUsers(): UserEntity[] {
@@ -32,13 +40,12 @@ export class ServiceUser{
     } */ 
 
         
-    CreateUser(createUserDto:CreateUserDto ): UserEntity {
+    async CreateUser(createUserDto:CreateUserDto ): Promise<UserEntity>{
         const newUser : UserEntity  = {
             ...createUserDto,
             id: uuid(),
          }
-        this.users.push(newUser);
-        return newUser;
+         return await this.userRepository.save(newUser);
     }
 
     UpdateUser(id: string, updateUserDto:UpdateUserDto): UserEntity{

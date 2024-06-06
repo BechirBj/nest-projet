@@ -26,7 +26,7 @@ export class UsersController{
 
 
     //ValidationPipe forces Nest to check the validity of the parameters based on the main class
-    @Post() 
+    @Post('/addUser') 
     create(@Body() createUserDto : CreateUserDto ) {
         return this.userService.CreateUser(createUserDto)
     }
