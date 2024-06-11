@@ -1,31 +1,29 @@
-import { Injectable } from "@nestjs/common";
+import { Injectable, NotFoundException } from "@nestjs/common";
 import { UserEntity } from "./User.entity";
 import { UpdateUserDto } from "./dtos/UpdateUser.tdo";
 import { CreateUserDto } from "./dtos/CreateUser.tdo";
 import {v4 as uuid} from "uuid"
 import { InjectRepository } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
+import { DeleteResult, Repository } from "typeorm";
 
 @Injectable()
 export class ServiceUser{
 
-    private  users: UserEntity[] = [];
     constructor(
         @InjectRepository(UserEntity)
         private userRepository: Repository<UserEntity>
-    ){
+    ) {}
 
+    async findUsers(): Promise<UserEntity[]> {
+        return await this.userRepository.find();
     }
 
-
-    findUsers(): UserEntity[] {
-        return this.users;
+    async findById(id: string): Promise<UserEntity> {
+        return await this.userRepository.findOne({ where: { id } });
     }
 
-    findById(id: string): UserEntity{
-
-        // Mapping 3al users 7ata len yal9a l id == user.id
-        return  this.users.find((user) => user.id === id);
+    async findByEmail(email: string): Promise<UserEntity>{
+        return  await this.userRepository.findOne({ where: { email } });
     }
 
      /* 
@@ -34,21 +32,35 @@ export class ServiceUser{
     create( /* @Req() req:Request ): string {
         /* 
         console.log(req.body);  refers to the body of the HTTP request, which typically contains data sent by the client
-        
-
         return "User created successfully";
     } */ 
 
         
-    async CreateUser(createUserDto:CreateUserDto ): Promise<UserEntity>{
-        const newUser : UserEntity  = {
+    async CreateUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+        const newUser: UserEntity = {
             ...createUserDto,
             id: uuid(),
-         }
-         return await this.userRepository.save(newUser);
+        };
+        return await this.userRepository.save(newUser);
     }
 
-    UpdateUser(id: string, updateUserDto:UpdateUserDto): UserEntity{
+    async deleteUser(id: string): Promise<void> {
+        const result: DeleteResult = await this.userRepository.delete(id);
+        if (result.affected === 0) {
+            throw new NotFoundException(`User with ID ${id} not found`);
+        }
+    }
+
+    async UpdateUser(id: string, updateUserDto: UpdateUserDto): Promise<UserEntity> {
+        const user = await this.userRepository.findOne({ where: { id } });
+        if (!user) {
+            throw new NotFoundException(`User with ID ${id} not found`);
+        }
+        const updatedUser = this.userRepository.merge(user, updateUserDto);
+        return await this.userRepository.save(updatedUser);
+    }
+    
+    /*    UpdateUser(id: string, updateUserDto:UpdateUserDto): UserEntity{
         // 1) find the user that has the passed id 
         const index = this.users.findIndex((user : UserEntity) => user.id === id); 
         // 2) update the user
@@ -60,11 +72,8 @@ export class ServiceUser{
         return Updateduser ;
         // direct methode : 
         // return this.users[index] ; 
-    };
+    }; */ 
 
-    DeleteUser(id: string){
-        // 1) find the user that has the passed id 
-        this.users = this.users.filter((user : UserEntity) => user.id != id  );
-        // 2) remove the user
-    }
+
+     
 }

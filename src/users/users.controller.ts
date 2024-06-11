@@ -10,17 +10,17 @@ export class UsersController{
     constructor(private readonly userService: ServiceUser){}
  
     @Get()
-    find(): UserEntity[] {
-        return this.userService.findUsers();
+    async find(): Promise<UserEntity[]> {
+        return await this.userService.findUsers();
     }
  
     @Get(":id") // returs the user that was passed in the GET request (localhost:3000/users/id)
     /* Pipes like " try catch "    that handles 
     transformation and validation of data before it reaches your route handlers. */ 
  
-    findOne(@Param("id",new ParseUUIDPipe({ errorHttpStatusCode: HttpStatus.FORBIDDEN })) 
-    id: string): UserEntity {
-        // Mapping 3al users 7ata len yal9a l id == user.id
+    findOne(
+    @Param('id', new ParseUUIDPipe({ errorHttpStatusCode: HttpStatus.FORBIDDEN })) id: string
+    ) {
         return  this.userService.findById(id);
     }
 
@@ -31,6 +31,12 @@ export class UsersController{
         return this.userService.CreateUser(createUserDto)
     }
 
+    @Post(':email')
+    FindByEmail(
+        @Param('email') email: string
+    ) {
+        return  this.userService.findByEmail(email);
+    }
 
 
     @Patch(":id")       
@@ -41,12 +47,12 @@ export class UsersController{
         return this.userService.UpdateUser(id,updateUserDto);
     }
 
-    @Delete(":id")   
-    @HttpCode(HttpStatus.NO_CONTENT)  // You can change the status code here  to indicate the result of a request
-    remove(@Param("id",ParseUUIDPipe ) id: string)  {
-        
-        return this.userService.DeleteUser(id)
-
-    }   
+    @Delete(':id')
+    @HttpCode(HttpStatus.NO_CONTENT)
+    remove(
+        @Param('id', new ParseUUIDPipe({ errorHttpStatusCode: HttpStatus.FORBIDDEN })) id: string
+    ) {
+        return this.userService.deleteUser(id);
+    }  
     
 }
