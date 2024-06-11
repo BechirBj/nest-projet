@@ -14,5 +14,8 @@ export class UserEntity {
 
     @Column()
     country: string;
+    
+    @Column()
+    password: string;
 
 }
