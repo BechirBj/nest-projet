@@ -27,7 +27,7 @@ import { JwtModule } from "@nestjs/jwt";
           port: 5432,
           username: 'postgres',
           password: 'admin',
-          database: 'nestt',
+          database: 'nestJS',
           entities: [UserEntity],
           synchronize: true,
         }),UsersModule, AuthModule,

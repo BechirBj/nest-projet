@@ -6,15 +6,17 @@ import { ServiceUser } from 'src/users/users.Service';
 export class AuthService {
   constructor(
     private usersService: ServiceUser,
-    private jwtService: JwtService, // Inject JwtService
+    private jwtService: JwtService,
   ) {}  
-  async validateUser(email: string, password: string): Promise<any> {
+  async validateUser(email: string, password: string){
     const user = await this.usersService.findByEmail(email);
-    if (user && user.password === password) {
-      const { password, ...result } = user; // Exclude password from the returned user object
-      return result;
+    if (user){
+      if(user.password===password){
+        return "Authentification successful"
+      }
+      return 'Password is wrong '
     }
-    return null;
+    return "check your Email ";
   }
   async login(user: any) {
     const payload = { email: user.email, sub: user.id, roles: user.roles };
