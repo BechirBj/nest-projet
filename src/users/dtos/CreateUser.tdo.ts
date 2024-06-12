@@ -1,7 +1,8 @@
         // DTO Data transfer object  in an object that defines how the data will be sent over the network
 
 import { ApiProperty } from "@nestjs/swagger";
-import { IsEmail, IsNotEmpty, IsString, Length} from "class-validator";
+import { ArrayNotEmpty, IsArray, IsEmail, IsEnum, IsNotEmpty, IsString, Length} from "class-validator";
+import { Role } from "src/auth/roles.enum";
         
 export class CreateUserDto {
             /* another mthd : @Length(3,20, { groups:['create']}) */
@@ -22,7 +23,12 @@ export class CreateUserDto {
     @ApiProperty()
     @IsString()
     @IsNotEmpty()
-    @Length(3,20)
-        
+    @Length(3,20)        
     readonly password : string ;
+
+    @ApiProperty()
+    @IsEnum(Role, { each: true })
+    @IsArray()
+    @ArrayNotEmpty()
+    roles: Role[];
 }

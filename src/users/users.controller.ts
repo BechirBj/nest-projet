@@ -1,8 +1,13 @@
-import { Controller,Delete,Get,Patch,Post ,Param, Body, HttpCode, HttpStatus,  ParseUUIDPipe} from "@nestjs/common";
+import { Controller,Delete,Get,Patch,Post ,Param, Body, HttpCode, HttpStatus,  ParseUUIDPipe, UseGuards} from "@nestjs/common";
 import { CreateUserDto } from "./dtos/CreateUser.tdo";
 import { UpdateUserDto } from "./dtos/UpdateUser.tdo";
 import { UserEntity } from "./User.entity";
 import { ServiceUser } from "./users.Service";
+import { Roles } from "src/auth/guard/roles.decorator";
+import { Role } from "src/auth/roles.enum";
+import { RolesGuard } from "src/auth/guard/roles.guard";
+import { JwtAuthGuard } from "src/auth/jwt-auth.guard";
+
 
 @Controller("users")
 export class UsersController{
@@ -10,6 +15,8 @@ export class UsersController{
     constructor(private readonly userService: ServiceUser){}
  
     @Get()
+    @UseGuards(JwtAuthGuard, RolesGuard)
+    @Roles(Role.Admin)
     async find(): Promise<UserEntity[]> {
         return await this.userService.findUsers();
     }
