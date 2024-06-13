@@ -12,16 +12,16 @@ export class AuthService {
     const user = await this.usersService.findByEmail(email);
     if (user){
       if(user.password===password){
-        return "Authentification successful"  
+        return "Authentification successful"
       }
       return 'Password is wrong '
     }
     return "check your Email ";
   }
+
   async login(user: any) {
     const payload = { email: user.email, sub: user.id, roles: user.roles };
     return {
-      access_token: this.jwtService.sign(payload),
-    };
+      access_token: await this.jwtService.signAsync(payload)};
   }
 }

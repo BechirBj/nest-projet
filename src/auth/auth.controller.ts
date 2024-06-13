@@ -2,8 +2,6 @@ import {
   Body,
   Controller,
   Get,
-  HttpCode,
-  HttpStatus,
   Post,
   Request,
   UseGuards,
@@ -18,18 +16,21 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
-    const user = await this.authService.validateUser(loginDto.email, loginDto.password);
-    if( user=='Authentification successful' ){
+    const user = await this.authService.validateUser(
+      loginDto.email,
+      loginDto.password,
+    );
+    if (user == 'Authentification successful') {
       return this.authService.login(user);
     }
-    return 'Check Your inputs'
+    return 'Check Your inputs';
   }
   @UseGuards(JwtAuthGuard)
   @Get('protected')
-  getHello(@Request() req): string { // TODO: require an Bearer token, validate token
-  return req.user;
-  
-}
+  getHello(@Request() req): string {
+    // TODO: require an Bearer token, validate token
+    return req.user;
+  }
 
   /*
     @HttpCode(HttpStatus.OK)
