@@ -16,14 +16,7 @@ export class AuthController {
 
   @Post('login')
   async login(@Body() loginDto: LoginDto) {
-    const user = await this.authService.validateUser(
-      loginDto.email,
-      loginDto.password,
-    );
-    if (user == 'Authentification successful') {
-      return this.authService.login(user);
-    }
-    return 'Check Your inputs';
+    return this.authService.validateUser(loginDto.email, loginDto.password);
   }
   @UseGuards(JwtAuthGuard)
   @Get('protected')
