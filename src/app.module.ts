@@ -14,19 +14,12 @@ import { RolesGuard } from './auth/guard/roles.guard';
   imports: [
     TypeOrmModule.forRoot({
       type: 'postgres',
-
       host: 'localhost',
-
       port: 5432,
-
       username: 'postgres',
-
       password: 'admin',
-
-      database: 'nestJS',
-
+      database: 'nestt',
       entities: [UserEntity],
-
       synchronize: true,
     }),
     AuthModule,
