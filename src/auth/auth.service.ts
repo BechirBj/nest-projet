@@ -12,7 +12,7 @@ export class AuthService {
     const user = await this.usersService.findByEmail(email);
     if (user){
       if(user.password===password){
-        return "Authentification successful"
+        return "Authentification successful"  
       }
       return 'Password is wrong '
     }

@@ -10,6 +10,7 @@ import {
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
 import { LoginDto } from '../users/dtos/login.dto';
+import { JwtAuthGuard } from './jwt-auth.guard';
 
 @Controller('auth')
 export class AuthController {
@@ -23,6 +24,12 @@ export class AuthController {
     }
     return 'Check Your inputs'
   }
+  @UseGuards(JwtAuthGuard)
+  @Get('protected')
+  getHello(@Request() req): string { // TODO: require an Bearer token, validate token
+  return req.user;
+  
+}
 
   /*
     @HttpCode(HttpStatus.OK)

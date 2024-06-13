@@ -50,7 +50,7 @@ export class ServiceUser{
             throw new NotFoundException(`User with ID ${id} not found`);
         }
     }
-
+    
     async UpdateUser(id: string, updateUserDto: UpdateUserDto): Promise<UserEntity> {
         const user = await this.userRepository.findOne({ where: { id } });
         if (!user) {
