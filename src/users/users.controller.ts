@@ -24,6 +24,7 @@ import { AuthGuard } from '@nestjs/passport';
 export class UsersController {
   constructor(private readonly userService: ServiceUser) {}
 
+  @Roles(Role.ADMIN)
   @Get()
   async find(): Promise<UserEntity[]> {
     return await this.userService.findUsers();

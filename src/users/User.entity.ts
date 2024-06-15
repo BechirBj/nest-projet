@@ -1,5 +1,5 @@
-import { Role } from "src/auth/roles.enum";
 import { Column, Entity, PrimaryGeneratedColumn } from "typeorm";
+import { Role } from "src/auth/roles.enum"; // Adjust import path as per your project structure
 
 @Entity('user_entity')
 export class UserEntity {
@@ -20,6 +20,6 @@ export class UserEntity {
     password: string;
     
     @Column('simple-array')
-    roles: Role[];
+    roles: string[];
 
 }

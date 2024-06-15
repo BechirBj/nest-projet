@@ -11,7 +11,8 @@ export class AuthService {
     @InjectRepository(UserEntity) private userRepo: Repository<UserEntity>,
     private jwtService: JwtService,
   ) {}
-  async validateUser(email: string, password: string) {
+  
+  async validateUser(email: string) {
     const user = await this.userRepo.findOne({
       where: { email },
     });
@@ -25,7 +26,6 @@ export class AuthService {
   async login(user: any) {
     console.log('user==>', JSON.stringify(user));
     const payload = { email: user.email, sub: user.id, roles: user.roles };
-    console;
     const access_token = await this.jwtService.sign(payload);
     return { access_token };
   }
