@@ -16,7 +16,7 @@ export class UsersController{
  
     @Get()
     @UseGuards(JwtAuthGuard, RolesGuard)
-    @Roles(Role.Admin)
+    @Roles(Role.ADMIN)
     async find(): Promise<UserEntity[]> {
         return await this.userService.findUsers();
     }
