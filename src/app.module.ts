@@ -1,26 +1,16 @@
 import {Module} from "@nestjs/common";
-import { ServiceUser } from "./users/users.Service";
-import { UsersController } from "./users/users.controller";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { UserEntity } from "./users/User.entity";
 import { UsersModule } from "./users/users.module";
 import { AuthModule } from './auth/auth.module';
-import { APP_GUARD } from "@nestjs/core";
-import { RolesGuard } from "./auth/guard/roles.guard";
-import { JwtStrategy } from "./auth/jwt.strategy";
 import { PassportModule } from "@nestjs/passport";
 import { JwtModule } from "@nestjs/jwt";
+import { InterMiami} from "./Interfaces/interfaces/entities/interface.entity";
+import { InterfacesModule } from "./Interfaces/interfaces/interfaces.module";
 
 
 @Module({ 
-    providers: [
-      JwtStrategy,
-      {
-        provide: APP_GUARD,
-        useClass: RolesGuard,
-      },
-    ],
-    imports: [      
+    imports: [
         TypeOrmModule.forRoot({
           type: 'postgres',
           host: 'localhost',
@@ -28,14 +18,15 @@ import { JwtModule } from "@nestjs/jwt";
           username: 'postgres',
           password: 'admin',
           database: 'nestt',
-          entities: [UserEntity],
+          entities: [UserEntity,InterMiami],
           synchronize: true,
-        }),UsersModule, AuthModule,
+        }), AuthModule,
         PassportModule,
         JwtModule.register({
           secret: 'secretKey', 
           signOptions: { expiresIn: '1h' }, 
-        }),
+        }),AuthModule,UsersModule,InterfacesModule,
+ 
       ],
 })
 export class AppModule{

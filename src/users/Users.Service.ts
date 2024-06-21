@@ -40,6 +40,7 @@ export class ServiceUser{
         const newUser: UserEntity = {
             ...createUserDto,
             id: uuid(),
+            interfaces: []
         };
         return await this.userRepository.save(newUser);
     }
