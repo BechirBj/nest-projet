@@ -25,8 +25,7 @@ import { InterfacesModule } from "./Interfaces/interfaces/interfaces.module";
         JwtModule.register({
           secret: 'secretKey', 
           signOptions: { expiresIn: '1h' }, 
-        }),AuthModule,UsersModule,InterfacesModule,
- 
+        }),AuthModule,UsersModule,InterfacesModule, 
       ],
 })
 export class AppModule{

@@ -24,6 +24,5 @@ export class UserEntity {
     roles: Role;
 
     @OneToMany(() => InterMiami, interMiami => interMiami.owner)
-  interfaces: InterMiami[];
-
+    interfaces: InterMiami[];
 }

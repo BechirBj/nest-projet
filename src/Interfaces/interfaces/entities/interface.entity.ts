@@ -1,9 +1,9 @@
 import { UserEntity } from "src/users/User.entity";
-import { Column, CreateDateColumn, Entity, JoinTable, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity('Interfaces')
 export class InterMiami {
-     @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column()
@@ -17,5 +17,4 @@ export class InterMiami {
 
   @ManyToOne(() => UserEntity, user => user.interfaces, { eager: true }) 
   owner: UserEntity;
-
 }
