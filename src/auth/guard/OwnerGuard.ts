@@ -1,4 +1,3 @@
-// src/interfaces/guards/is-owner.guard.ts
 import { Injectable, CanActivate, ExecutionContext, NotFoundException, Inject } from '@nestjs/common';
 import { InterfacesService } from 'src/Interfaces/interfaces/interfaces.service';
 
