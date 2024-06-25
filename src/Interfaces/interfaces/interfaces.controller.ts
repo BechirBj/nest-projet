@@ -1,38 +1,59 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Req } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { InterfacesService } from './interfaces.service';
 import { CreateInterfaceDto } from './dto/create-interface.dto';
 import { UpdateInterfaceDto } from './dto/update-interface.dto';
 import { InterMiami } from './entities/interface.entity';
 import { IsOwnerGuard } from 'src/auth/guard/OwnerGuard';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
+import { Roles } from 'src/auth/guard/roles.decorator';
+import { Role } from 'src/auth/roles.enum';
+import { RolesGuard } from 'src/auth/guard/roles.guard';
 
 @Controller('interfaces')
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class InterfacesController {
   constructor(private readonly interfacesService: InterfacesService) {}
 
-  @UseGuards(JwtAuthGuard)
   @Post()
-  async create(@Body() createInterMiamiDto: CreateInterfaceDto, @Req() req: any): Promise<InterMiami> {
-      const userId = req.user.userId; // Assuming req.user has userId property
-      return this.interfacesService.create(createInterMiamiDto, userId);
+  async create(
+    @Body() createInterMiamiDto: CreateInterfaceDto,
+    @Req() req: any,
+  ): Promise<InterMiami> {
+    const userId = req.user.userId;
+    return this.interfacesService.create(createInterMiamiDto, userId);
   }
 
-  @UseGuards(JwtAuthGuard)
   @Get()
+  @Roles(Role.ADMIN)
   findAll() {
     return this.interfacesService.findAll();
   }
 
+  @UseGuards(IsOwnerGuard)
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.interfacesService.findOne(id);
   }
-
+  @UseGuards(IsOwnerGuard)
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateInterfaceDto: UpdateInterfaceDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateInterfaceDto: UpdateInterfaceDto,
+  ) {
     return this.interfacesService.update(id, updateInterfaceDto);
   }
 
+  @UseGuards(IsOwnerGuard)
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.interfacesService.remove(id);

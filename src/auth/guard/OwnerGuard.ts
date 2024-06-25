@@ -11,6 +11,7 @@ export class IsOwnerGuard implements CanActivate {
     const request = context.switchToHttp().getRequest();
     const user = request.user; 
     const interfaceId = request.params.id;
+    console.log(interfaceId)
     console.log(user)
     const interfaceEntity = await this.interfacesService.findOne(interfaceId);
 
@@ -18,7 +19,7 @@ export class IsOwnerGuard implements CanActivate {
       throw new NotFoundException(`Interface with ID ${interfaceId} not found`);
     }
 
-    if (interfaceEntity.owner.id !== user.id) {
+    if (interfaceEntity.owner.id !== user.userId) {
       throw new NotFoundException('You are not authorized to perform this action on this interface');
     }
 
