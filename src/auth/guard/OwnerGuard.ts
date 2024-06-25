@@ -1,18 +1,25 @@
-import { Injectable, CanActivate, ExecutionContext, NotFoundException, Inject } from '@nestjs/common';
+import {
+  Injectable,
+  CanActivate,
+  ExecutionContext,
+  NotFoundException,
+  Inject,
+} from '@nestjs/common';
 import { InterfacesService } from 'src/Interfaces/interfaces/interfaces.service';
 
 @Injectable()
 export class IsOwnerGuard implements CanActivate {
   constructor(
-    @Inject(InterfacesService) private readonly interfacesService: InterfacesService,
+    @Inject(InterfacesService)
+    private readonly interfacesService: InterfacesService,
   ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const request = context.switchToHttp().getRequest();
-    const user = request.user; 
+    const user = request.user;
     const interfaceId = request.params.id;
-    console.log(interfaceId)
-    console.log(user)
+    console.log(interfaceId);
+    console.log(user);
     const interfaceEntity = await this.interfacesService.findOne(interfaceId);
 
     if (!interfaceEntity) {
@@ -20,7 +27,9 @@ export class IsOwnerGuard implements CanActivate {
     }
 
     if (interfaceEntity.owner.id !== user.userId) {
-      throw new NotFoundException('You are not authorized to perform this action on this interface');
+      throw new NotFoundException(
+        'You are not authorized to perform this action on this interface',
+      );
     }
 
     return true;
