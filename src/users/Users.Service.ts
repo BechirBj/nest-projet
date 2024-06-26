@@ -39,11 +39,9 @@ export class ServiceUser{
 
         
     async CreateUser(createUserDto: CreateUserDto): Promise<UserEntity> {
-        const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
-
         const newUser: UserEntity = {
             ...createUserDto,
-            password: hashedPassword,
+            password: await bcrypt.hash(createUserDto.password, 10),
             id: uuid(),
             interfaces: []
         };
