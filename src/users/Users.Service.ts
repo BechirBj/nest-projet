@@ -5,6 +5,8 @@ import { CreateUserDto } from "./dtos/CreateUser.tdo";
 import {v4 as uuid} from "uuid"
 import { InjectRepository } from "@nestjs/typeorm";
 import { DeleteResult, Repository } from "typeorm";
+import * as bcrypt from 'bcryptjs';
+
 
 @Injectable()
 export class ServiceUser{
@@ -37,8 +39,11 @@ export class ServiceUser{
 
         
     async CreateUser(createUserDto: CreateUserDto): Promise<UserEntity> {
+        const hashedPassword = await bcrypt.hash(createUserDto.password, 10);
+
         const newUser: UserEntity = {
             ...createUserDto,
+            password: hashedPassword,
             id: uuid(),
             interfaces: []
         };
