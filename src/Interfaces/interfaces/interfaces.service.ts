@@ -18,13 +18,11 @@ export class InterfacesService {
     createInterMiamiDto: CreateInterfaceDto,
     user: UserEntity,
   ): Promise<InterMiami> {
-    console.log(user);
     const newInterMiami = this.interfaceRepository.create({
       ...createInterMiamiDto,
       id: uuid(),
       owner: user,
     });
-    console.log(newInterMiami);
     return await this.interfaceRepository.save(newInterMiami);
   }
 
