@@ -32,6 +32,17 @@ export class InterfacesService {
     return await this.interfaceRepository.find({ relations: ['owner'] });
   }
 
+  async findByOwnerId(ownerid: string): Promise<InterMiami[]> {
+    const interfaces = await this.interfaceRepository.find({
+        where: { owner: { id: ownerid } },
+        relations: ['owner']
+    });
+    if (!interfaces || interfaces.length === 0) {
+        throw new NotFoundException(`No interfaces found for owner with ID ${ownerid}`);
+    }
+    return interfaces;
+  }
+
   async findOne(id: string): Promise<InterMiami> {
     const interfacee = await this.interfaceRepository.findOne({
       where: { id },

@@ -38,6 +38,11 @@ export class InterfacesController {
   findAll() {
     return this.interfacesService.findAll();
   }
+  @Get(':ownerid')
+  findByOwnerId(@Param('ownerid') ownerid: string) {
+    return this.interfacesService.findByOwnerId(ownerid);
+  }
+
 
   @UseGuards(IsOwnerGuard)
   @Get(':id')

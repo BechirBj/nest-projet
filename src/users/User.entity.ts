@@ -17,7 +17,7 @@ export class UserEntity {
     @Column()
     country: string;
     
-    @Column()
+    @Column({select:false})
     password: string;
     
     @Column({ type: 'enum', enum: Role, default: Role.USER })
