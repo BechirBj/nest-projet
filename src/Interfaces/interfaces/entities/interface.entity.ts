@@ -1,5 +1,11 @@
-import { UserEntity } from "src/users/User.entity";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { UserEntity } from 'src/users/User.entity';
+import {
+  Column,
+  CreateDateColumn,
+  Entity,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity('Interfaces')
 export class InterMiami {
@@ -11,10 +17,13 @@ export class InterMiami {
 
   @Column()
   content: string;
-  
+
   @CreateDateColumn({ type: 'timestamp' })
   CreationDate: Date;
 
-  @ManyToOne(() => UserEntity, user => user.interfaces, { eager: true }) 
+  @ManyToOne(() => UserEntity, (user) => user.interfaces, {
+    onDelete: 'CASCADE',
+    eager: true,
+  })
   owner: UserEntity;
 }

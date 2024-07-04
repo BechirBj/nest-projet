@@ -9,10 +9,9 @@ async function bootstrap() {
   app.enableCors();
   app.useGlobalPipes(
     new ValidationPipe({
-      whitelist: true, // if there's a proprietary does not exist in the User Class
-      forbidNonWhitelisted: true, // to display the error message "Phone number should not exist"
-      transform:true, // ensures that incoming plain objects are automatically transformed into instances of the DTO classes.
-
+      whitelist: true, 
+      forbidNonWhitelisted: true, 
+      transform:true, 
     }),
   )
   const config = new DocumentBuilder()

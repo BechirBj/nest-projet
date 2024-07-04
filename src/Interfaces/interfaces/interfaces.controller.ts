@@ -33,16 +33,17 @@ export class InterfacesController {
     return this.interfacesService.create(createInterMiamiDto, userId);
   }
 
-  @Get()
-  @Roles(Role.ADMIN)
-  findAll() {
-    return this.interfacesService.findAll();
-  }
+  // @Get()
+  // @Roles()
+  // findAll() {
+  //   return this.interfacesService.findAll();
+  // }
+
   @Get(':ownerid')
+  @Roles(Role.ADMIN, Role.USER)
   findByOwnerId(@Param('ownerid') ownerid: string) {
     return this.interfacesService.findByOwnerId(ownerid);
   }
-
 
   @UseGuards(IsOwnerGuard)
   @Get(':id')

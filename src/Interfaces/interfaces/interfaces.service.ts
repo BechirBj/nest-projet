@@ -32,11 +32,13 @@ export class InterfacesService {
 
   async findByOwnerId(ownerid: string): Promise<InterMiami[]> {
     const interfaces = await this.interfaceRepository.find({
-        where: { owner: { id: ownerid } },
-        relations: ['owner']
+      where: { owner: { id: ownerid } },
+      relations: ['owner'],
     });
     if (!interfaces || interfaces.length === 0) {
-        throw new NotFoundException(`No interfaces found for owner with ID ${ownerid}`);
+      throw new NotFoundException(
+        `No interfaces found for owner with ID ${ownerid}`,
+      );
     }
     return interfaces;
   }

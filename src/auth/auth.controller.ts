@@ -21,6 +21,7 @@ export class AuthController {
       loginDto.email,
       loginDto.password,
     );
+    
     if (!user) {
       return { message: 'Invalid credentials' };
     }

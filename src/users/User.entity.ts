@@ -1,28 +1,29 @@
-import { InterMiami } from "src/Interfaces/interfaces/entities/interface.entity";
-import { Role } from "src/auth/roles.enum";
-import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
+import { InterMiami } from 'src/Interfaces/interfaces/entities/interface.entity';
+import { Role } from 'src/auth/roles.enum';
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('user_entity')
 export class UserEntity {
-    
-    @PrimaryGeneratedColumn("uuid")
-    id: string;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
-    @Column()
-    username: string;
+  @Column()
+  username: string;
 
-    @Column()
-    email: string;
+  @Column()
+  email: string;
 
-    @Column()
-    country: string;
-    
-    @Column({select:false})
-    password: string;
-    
-    @Column({ type: 'enum', enum: Role, default: Role.USER })
-    roles: Role;
+  @Column()
+  country: string;
 
-    @OneToMany(() => InterMiami, interMiami => interMiami.owner)
-    interfaces: InterMiami[];
+  @Column()
+  password: string;
+
+  @Column({ type: 'enum', enum: Role, default: Role.USER })
+  roles: Role;
+
+  @OneToMany(() => InterMiami, (interMiami) => interMiami.owner, {
+    cascade: ['remove'],
+  })
+  interfaces: InterMiami[];
 }
