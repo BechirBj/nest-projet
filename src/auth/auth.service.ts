@@ -16,13 +16,12 @@ export class AuthService {
       throw new UnauthorizedException('Invalid credentials');
     }
     const isMatch = await bcrypt.compare(password, user.password);
-    if (!isMatch) {
-      console.error('Invalid password');
+    if( !isMatch ){
       throw new UnauthorizedException('Invalid credentials');
+    }else{
+      const { password: userPassword, ...result } = user;
+      return result;
     }
-
-    const { password: userPassword, ...result } = user;
-    return result;
   }
   async login(user: any) {
     const payload = { email: user.email, sub: user.id, roles: user.roles };

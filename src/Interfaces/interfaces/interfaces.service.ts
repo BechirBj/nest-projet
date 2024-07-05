@@ -30,6 +30,7 @@ export class InterfacesService {
     return await this.interfaceRepository.find({ relations: ['owner'] });
   }
 
+  
   async findByOwnerId(ownerid: string): Promise<InterMiami[]> {
     const interfaces = await this.interfaceRepository.find({
       where: { owner: { id: ownerid } },

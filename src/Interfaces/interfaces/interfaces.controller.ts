@@ -18,6 +18,7 @@ import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
 import { Roles } from 'src/auth/guard/roles.decorator';
 import { Role } from 'src/auth/roles.enum';
 import { RolesGuard } from 'src/auth/guard/roles.guard';
+import { GetUser } from 'src/Decorators/getUser.decorator';
 
 @Controller('interfaces')
 @UseGuards(JwtAuthGuard, RolesGuard)
@@ -39,10 +40,16 @@ export class InterfacesController {
   //   return this.interfacesService.findAll();
   // }
 
-  @Get(':ownerid')
+  @Get('')
   @Roles(Role.ADMIN, Role.USER)
-  findByOwnerId(@Param('ownerid') ownerid: string) {
-    return this.interfacesService.findByOwnerId(ownerid);
+  findByOwnerId(@GetUser('roles') role:string, @GetUser('userId')id:string,
+    ) {
+      if(role==Role.ADMIN){
+        return this.interfacesService.findAll();
+      }
+      else {
+        return this.interfacesService.findByOwnerId(id);
+      }
   }
 
   @UseGuards(IsOwnerGuard)

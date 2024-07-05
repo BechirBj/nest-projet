@@ -20,6 +20,11 @@ export class IsOwnerGuard implements CanActivate {
     const interfaceId = request.params.id;
     const interfaceEntity = await this.interfacesService.findOne(interfaceId);
 
+    
+    if (user.roles === 'admin') {
+      return true;
+    }
+
     if (!interfaceEntity) {
       throw new NotFoundException(`Interface with ID ${interfaceId} not found`);
     }

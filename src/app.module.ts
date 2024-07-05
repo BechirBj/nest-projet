@@ -16,7 +16,7 @@ import { InterfacesModule } from './Interfaces/interfaces/interfaces.module';
       port: 5432,
       username: 'postgres',
       password: 'admin',
-      database: 'nestJS',
+      database: 'nestt',
       entities: [UserEntity, InterMiami],
       synchronize: true,
     }),
